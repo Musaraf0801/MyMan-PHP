@@ -30,6 +30,7 @@
 			$response['error'] = true;
 			$response['message'] = "Required fields are missing";
 		}
+		
 	}
 
 	echo json_encode($response);
