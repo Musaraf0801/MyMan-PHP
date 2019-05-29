@@ -6,13 +6,11 @@
 
 	if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
-		if (isset($_POST['id']) and isset($_POST['password']) and isset($_POST['shopName']) and isset($_POST['seatCapacity']) and isset($_POST['openingTime']) and isset($_POST['closingTime']) and isset($_POST['leaveDay']) and isset($_POST['ownerName']) and isset($_POST['contactNumber']) and isset($_POST['Pricing']))
+		if (isset($_POST['shopName']) and isset($_POST['seatCapacity']) and isset($_POST['openingTime']) and isset($_POST['closingTime']) and isset($_POST['leaveDay']) and isset($_POST['ownerName']) and isset($_POST['contactNumber']) and isset($_POST['Pricing']) and isset($_POST['email']) and isset($_POST['street']) and isset($_POST['city']) and isset($_POST['pincode']))
 		{
 
 			$db = new DbOperations();	
 			$result = $db->createShop (
-				$_POST['id'],
-				$_POST['password'],
 				$_POST['shopName'],
 				$_POST['seatCapacity'],
 				$_POST['openingTime'],
@@ -20,7 +18,11 @@
 				$_POST['leaveDay'],
 				$_POST['ownerName'],
 				$_POST['contactNumber'],
-				$_POST['Pricing']
+				$_POST['Pricing'],
+				$_POST['email'],
+				$_POST['street'],
+				$_POST['city'],
+				$_POST['pincode']
 				);
 
 			if ($result == 1){

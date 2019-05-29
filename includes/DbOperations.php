@@ -84,20 +84,20 @@
 
 		}
 
-		public function createShop($id, $password, $shopName, $seatCapacity, $openingTime, $closingTime, $leaveDay, $ownerName, $contactNumber, $pricing){
+		public function createShop( $shopName, $seatCapacity, $openingTime, $closingTime, $leaveDay, $ownerName, $contactNumber, $pricing, $email, $street, $city, $pincode){
 
-			if ($this->isShopExist($id)){
+			if ($this->isShopExist($shopName)){
 				return 0;
 			}else{
-				$stmt = $this->con->prepare("INSERT INTO `Shops` (`id`, `shopName`, `seatCapacity`, `openingTime`, `closingTime`, `leaveDays`, `ownerName`, `contactNumber`, `Pricing`, `password`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+				$stmt = $this->con->prepare("INSERT INTO `Shops` (`shopName`, `seatCapacity`, `openingTime`, `closingTime`, `leaveDays`, `ownerName`, `contactNumber`, `Pricing`,`email`, `street`, `city`, `pincode`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 
-				$stnt = $this->con->prepare("INSERT INTO `ShopStatus` (`id`, `shopName`) VALUES (?, ?)");
+				//$stnt = $this->con->prepare("INSERT INTO `ShopStatus` (`id`, `shopName`) VALUES (?, ?)");
 
-				$stmt->bind_param("ssssssssss", $id, $shopName, $seatCapacity, $openingTime, $closingTime, $leaveDay, $ownerName, $contactNumber, $pricing, $password);
+				$stmt->bind_param("ssssssssssss",$shopName, $seatCapacity, $openingTime, $closingTime, $leaveDay, $ownerName, $contactNumber, $pricing, $email, $street, $city, $pincode);
 
-				$stnt->bind_param("ss", $id, $shopName);
+				//$stnt->bind_param("ss", $id, $shopName);
 
-				if($stmt->execute() AND $stnt->execute()){
+				if($stmt->execute()){
 					return 1;
 				}else{
 					return 2;
@@ -106,10 +106,10 @@
 
 		}
 
-		private function isShopExist($id){
+		private function isShopExist($shopName){
 
-			$stmt = $this->con->prepare("SELECT id FROM Shops WHERE id = ?");
-			$stmt->bind_param("s", $id);
+			$stmt = $this->con->prepare("SELECT id FROM Shops WHERE shopName = ?");
+			$stmt->bind_param("s", $shopName);
 			$stmt->execute();
 			$stmt->store_result();
 
