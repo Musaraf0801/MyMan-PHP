@@ -4,7 +4,7 @@ This repo contains the PHP files for Connecting MyMan App with MySQL database. T
 
 ## List of PHP files and their functions:
 
-<li>  
+<ul>
 
 ### adminRegister.php 
   
@@ -54,4 +54,5 @@ This repo contains the PHP files for Connecting MyMan App with MySQL database. T
 ### userLogin.php
 
   This file login the user with required fields.
-<li/>
+
+</ul>
