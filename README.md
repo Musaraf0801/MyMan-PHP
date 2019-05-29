@@ -8,7 +8,7 @@ This repo contains the PHP files for Connecting MyMan App with MySQL database. T
 
 ### adminRegister.php 
   
-  This file register the Admin for Manaaging the App.
+  This file register the Admin for Managing the App.
   
 
 ### allShopStatusForAdmin.php 
