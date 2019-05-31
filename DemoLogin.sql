@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 29, 2019 at 07:49 PM
+-- Generation Time: May 31, 2019 at 05:33 PM
 -- Server version: 10.1.40-MariaDB
 -- PHP Version: 7.1.29
 
@@ -80,6 +80,7 @@ CREATE TABLE `Shops` (
   `email` varchar(100) NOT NULL,
   `street` varchar(200) NOT NULL,
   `city` varchar(200) NOT NULL,
+  `state` varchar(100) NOT NULL,
   `pincode` mediumint(9) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -87,8 +88,8 @@ CREATE TABLE `Shops` (
 -- Dumping data for table `Shops`
 --
 
-INSERT INTO `Shops` (`id`, `shopName`, `seatCapacity`, `openingTime`, `closingTime`, `leaveDays`, `ownerName`, `contactNumber`, `Pricing`, `email`, `street`, `city`, `pincode`) VALUES
-(18, 'Nat', '5', '10:50', '12:30', '2nd week Tuesday', 'Natasha', '9999999999', 'jhg - 10, huiuh - 50', 'navayuvan@gmail.com', 'Adadad', 'Dindigfyuk', 600606);
+INSERT INTO `Shops` (`id`, `shopName`, `seatCapacity`, `openingTime`, `closingTime`, `leaveDays`, `ownerName`, `contactNumber`, `Pricing`, `email`, `street`, `city`, `state`, `pincode`) VALUES
+(18, 'Nat', '5', '10:50', '12:30', '2nd week Tuesday', 'Natasha', '9999999999', 'jhg - 10, huiuh - 50', 'navayuvan@gmail.com', 'Adadad', 'Dindigfyuk', '', 600606);
 
 --
 -- Triggers `Shops`
