@@ -84,16 +84,16 @@
 
 		}
 
-		public function createShop( $shopName, $seatCapacity, $openingTime, $closingTime, $leaveDay, $ownerName, $contactNumber, $pricing, $email, $street, $city, $pincode){
+		public function createShop( $shopName, $seatCapacity, $openingTime, $closingTime, $leaveDay, $ownerName, $contactNumber, $pricing, $email, $street, $city, $pincode, $state){
 
 			if ($this->isShopExist($shopName)){
 				return 0;
 			}else{
-				$stmt = $this->con->prepare("INSERT INTO `Shops` (`shopName`, `seatCapacity`, `openingTime`, `closingTime`, `leaveDays`, `ownerName`, `contactNumber`, `Pricing`,`email`, `street`, `city`, `pincode`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+				$stmt = $this->con->prepare("INSERT INTO `Shops` (`shopName`, `seatCapacity`, `openingTime`, `closingTime`, `leaveDays`, `ownerName`, `contactNumber`, `Pricing`,`email`, `street`, `city`, `pincode`, `state`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 
 				//$stnt = $this->con->prepare("INSERT INTO `ShopStatus` (`id`, `shopName`) VALUES (?, ?)");
 
-				$stmt->bind_param("ssssssssssss",$shopName, $seatCapacity, $openingTime, $closingTime, $leaveDay, $ownerName, $contactNumber, $pricing, $email, $street, $city, $pincode);
+				$stmt->bind_param("ssssssssssss",$shopName, $seatCapacity, $openingTime, $closingTime, $leaveDay, $ownerName, $contactNumber, $pricing, $email, $street, $city, $pincode, $state);
 
 				//$stnt->bind_param("ss", $id, $shopName);
 
