@@ -54,5 +54,9 @@ This repo contains the PHP files for Connecting MyMan App with MySQL database. T
 
   This file login the user with required fields.
 
+### allShopDetailsForUsers.php
+
+  This file returns the shop details for display to users.  
+
 
 </ul>

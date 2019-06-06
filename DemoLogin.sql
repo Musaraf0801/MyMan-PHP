@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 31, 2019 at 05:33 PM
+-- Generation Time: Jun 06, 2019 at 08:35 AM
 -- Server version: 10.1.40-MariaDB
 -- PHP Version: 7.1.29
 
@@ -59,7 +59,7 @@ CREATE TABLE `ShopLogin` (
 --
 
 INSERT INTO `ShopLogin` (`id`, `username`, `password`) VALUES
-(3, 'MMN18', 'cc5d738192bde73f2274bfbc55608cf3');
+(9, 'MMN27', 'c082d69011f85eaff1ffb93e2d7a6137');
 
 -- --------------------------------------------------------
 
@@ -81,21 +81,26 @@ CREATE TABLE `Shops` (
   `street` varchar(200) NOT NULL,
   `city` varchar(200) NOT NULL,
   `state` varchar(100) NOT NULL,
-  `pincode` mediumint(9) NOT NULL
+  `pincode` mediumint(9) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `Shops`
 --
 
-INSERT INTO `Shops` (`id`, `shopName`, `seatCapacity`, `openingTime`, `closingTime`, `leaveDays`, `ownerName`, `contactNumber`, `Pricing`, `email`, `street`, `city`, `state`, `pincode`) VALUES
-(18, 'Nat', '5', '10:50', '12:30', '2nd week Tuesday', 'Natasha', '9999999999', 'jhg - 10, huiuh - 50', 'navayuvan@gmail.com', 'Adadad', 'Dindigfyuk', '', 600606);
+INSERT INTO `Shops` (`id`, `shopName`, `seatCapacity`, `openingTime`, `closingTime`, `leaveDays`, `ownerName`, `contactNumber`, `Pricing`, `email`, `street`, `city`, `state`, `pincode`, `status`) VALUES
+(27, 'Nat', '5', '10:50', '12:30', '2nd week Tuesday', 'Natasha', '9999999999', 'jhg - 10, huiuh - 50', 'navayuvan@gmail.com', 'Adadad', 'Dindigfyuk', 'TN', 600606, 1);
 
 --
 -- Triggers `Shops`
 --
 DELIMITER $$
-CREATE TRIGGER `updateUsername` AFTER INSERT ON `Shops` FOR EACH ROW INSERT INTO `ShopLogin` (`username`, `password`) VALUES (concat("MMN",NEW.id), md5(concat("MMN", NEW.id)))
+CREATE TRIGGER `delShop` AFTER DELETE ON `Shops` FOR EACH ROW DELETE FROM `ShopStatus` WHERE id = CONCAT("MMN", OLD.id)
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `updateShopStatus` AFTER INSERT ON `Shops` FOR EACH ROW INSERT INTO `ShopStatus` (`id`, `shopName`) VALUES (concat("MMN",NEW.id), NEW.shopName)
 $$
 DELIMITER ;
 
@@ -111,6 +116,29 @@ CREATE TABLE `ShopStatus` (
   `bookings` int(11) DEFAULT '0',
   `shopName` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ShopStatus`
+--
+
+INSERT INTO `ShopStatus` (`id`, `status`, `bookings`, `shopName`) VALUES
+('MMN27', 1, 0, 'Nat');
+
+--
+-- Triggers `ShopStatus`
+--
+DELIMITER $$
+CREATE TRIGGER `closeOrOpenStatus` AFTER UPDATE ON `ShopStatus` FOR EACH ROW UPDATE `Shops` SET `status`= NEW.status WHERE shopName = NEW.shopName
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `delShopLogin` AFTER DELETE ON `ShopStatus` FOR EACH ROW DELETE FROM `ShopLogin` WHERE username = OLD.id
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `updateShopLogin` AFTER INSERT ON `ShopStatus` FOR EACH ROW INSERT INTO `ShopLogin` (`username`, `password`) VALUES (NEW.id, md5(NEW.id))
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -180,13 +208,13 @@ ALTER TABLE `adminUser`
 -- AUTO_INCREMENT for table `ShopLogin`
 --
 ALTER TABLE `ShopLogin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `Shops`
 --
 ALTER TABLE `Shops`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `User`

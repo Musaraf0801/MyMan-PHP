@@ -91,11 +91,9 @@
 			}else{
 				$stmt = $this->con->prepare("INSERT INTO `Shops` (`shopName`, `seatCapacity`, `openingTime`, `closingTime`, `leaveDays`, `ownerName`, `contactNumber`, `Pricing`,`email`, `street`, `city`, `pincode`, `state`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 
-				//$stnt = $this->con->prepare("INSERT INTO `ShopStatus` (`id`, `shopName`) VALUES (?, ?)");
 
-				$stmt->bind_param("ssssssssssss",$shopName, $seatCapacity, $openingTime, $closingTime, $leaveDay, $ownerName, $contactNumber, $pricing, $email, $street, $city, $pincode, $state);
+				$stmt->bind_param("sssssssssssss",$shopName, $seatCapacity, $openingTime, $closingTime, $leaveDay, $ownerName, $contactNumber, $pricing, $email, $street, $city, $pincode, $state);
 
-				//$stnt->bind_param("ss", $id, $shopName);
 
 				if($stmt->execute()){
 					return 1;
@@ -134,7 +132,7 @@
 
 		public function openShop($id){
 
-			$stmt = $this->con->prepare("UPDATE `ShopStatus` SET `status`= 1 WHERE id = ?");
+			$stmt = $this->con->prepare("UPDATE `ShopStatus` SET `status`= 1 WHERE id = CONCAT('MMN', ?)");
 			$stmt->bind_param("s", $id);
 
 			if ($stmt->execute()){
@@ -150,7 +148,7 @@
 
 		public function closeShop($id){
 
-			$stmt = $this->con->prepare("UPDATE `ShopStatus` SET `status`= 0 WHERE id = ?");
+			$stmt = $this->con->prepare("UPDATE `ShopStatus` SET `status`= 0 WHERE id = CONCAT('MMN', ?)");
 			$stmt->bind_param("s", $id);
 
 			if ($stmt->execute()){
@@ -190,7 +188,9 @@
 		public function adminRegister($username, $pass, $email){
 
 			if ($this->isAdminExist($username, $email)){
+
 				return 0;
+
 			}else{
 
 				$password = md5($pass);
@@ -202,8 +202,11 @@
 				if ($stmt->execute()) {
 					return 1;
 				}
+
 				else{
+
 					return 2;
+					
 				}
 			}
 		}
@@ -229,5 +232,32 @@
 			return $stmt->num_rows > 0;
 		}
 
+		public function allShopDetailsForUsers(){
 
+			$stmt = $this->con->prepare("SELECT shopName, openingTime, closingTime, contactNumber, street, city, state, Pricing, status FROM Shops;");
+	
+			$stmt->execute();
+			
+			$stmt->bind_result($shopName, $openingTime, $closingTime, $contactNumber, $street, $city, $state, $Pricing, $status);
+
+			$shops = array(); 
+			
+			while($stmt->fetch()){
+
+				$temp = array();
+				$temp['shopName'] = $shopName; 
+				$temp['openingTime'] = $openingTime; 
+				$temp['closingTime'] = $closingTime; 
+				$temp['contactNumber'] = $contactNumber;
+				$temp['street'] = $street;
+				$temp['city'] = $city;
+				$temp['state'] = $state; 
+				$temp['Pricing'] = $Pricing; 
+				$temp['status'] = $status; 
+
+				array_push($shops, $temp);
+			}
+
+			return $shops;
+		}
 	}
