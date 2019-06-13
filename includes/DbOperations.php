@@ -13,8 +13,6 @@
 			$this->con = $db->connect();
 		}
 
-		/* Create */
-
 		public function createUser($username, $pass, $email) {
 
 			if ($this->isUserExist($username, $email)){
@@ -123,10 +121,12 @@
 			if($stmt->execute()){
 
 				return $stmt->get_result()->fetch_assoc();
-			}else{
-				return false;
-			}
 
+			}else{
+
+				return false;
+
+			}
 
 		}
 
@@ -165,24 +165,44 @@
 
 		public function getAllShopStatusForAdmin(){
 
-				$stmt = $this->con->prepare("SELECT id, status, bookings, shopName FROM ShopStatus;");
+				$stmt = $this->con->prepare("SELECT id, status, bookings, shopName FROM Shops;");
 	
 				$stmt->execute();
 				
 				$stmt->bind_result($id, $status, $bookings, $shopName);
 				
 				$shops = array(); 
-				
-				while($stmt->fetch()){
+
+				$stmt->store_result();
+
+				if ($stmt->num_rows > 0){
+
+					while($stmt->fetch()){
 					$temp = array();
 					$temp['id'] = $id; 
 					$temp['status'] = $status; 
 					$temp['bookings'] = $bookings; 
 					$temp['shopName'] = $shopName; 
 					array_push($shops, $temp);
-				}
+					}
 
-				return $shops;
+					echo json_encode ($shops);
+
+				}else{
+
+					echo json_encode(array("error" => true));
+				}
+				
+				
+		}
+
+		private function updates($id, $status, $bookings, $shopName, $shop){
+
+
+			$shop += [array("id"=> $id, "status" => $status, "bookings" => $bookings, "shopName" => $shopName)];
+
+			return $shop;
+
 		}
 
 		public function adminRegister($username, $pass, $email){

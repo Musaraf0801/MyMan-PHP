@@ -4,15 +4,19 @@
 
 	$response = array();
 
+	$response['error'] = false;
+
 	if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 		if (isset($_POST['no']) == "1"){
 
 			$db = new DbOperations();
 			
-			$response = $db->getAllShopStatusForAdmin();
+			$res = $db->getAllShopStatusForAdmin();
 
-			$response['error'] = false;
+
+
+			//$response['error'] = false;
 		}else{
 
 			$response['error'] = true;
@@ -22,4 +26,6 @@
 
 	}
 
-	echo json_encode($response);
+	if ($response['error'] === true){
+		echo json_encode($response);	
+	}
